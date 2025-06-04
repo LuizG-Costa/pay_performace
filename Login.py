@@ -12,6 +12,7 @@ USUARIOS = {
     "admin": "1234",
     "usuario": "senha123"
 }
+
 @st.cache_data
 # Função para verificar credenciais
 def verificar_credenciais(usuario, senha):
