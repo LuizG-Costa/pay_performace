@@ -200,3 +200,14 @@ databases/
 utils/__pycache__/
 pages/__pycache__
 secrets.toml
+
+# Ignorar arquivos sensíveis
+.env
+
+# Cache e arquivos temporários
+__pycache__/
+*.pyc
+
+# Diretórios do sistema
+database/
+.streamlit/
