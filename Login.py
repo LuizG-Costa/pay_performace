@@ -1,5 +1,5 @@
 import streamlit as st
-
+from utils.componentes import verificar_credenciais
 
 #col1, col2 = st.columns(2)
 #with col1:
@@ -7,43 +7,29 @@ import streamlit as st
 #with col2:
 st.image("/Users/luizc/OneDrive/Documentos/PYTHON/pay_performace/image/pay_logo.png")
 
-# Simulação de banco de dados de usuários
-USUARIOS = {
-    "admin": "1234",
-    "usuario": "senha123"
-}
 
-@st.cache_data
-# Função para verificar credenciais
-def verificar_credenciais(usuario, senha):
-    return USUARIOS.get(usuario) == senha
-
-# Inicialização do estado da sessão
+# @st.cache_data
 if "autenticado" not in st.session_state:
     st.session_state["autenticado"] = False
 
-# Se o usuário já estiver autenticado, redireciona para a página inicial
+# Redireciona se já estiver autenticado
 if st.session_state["autenticado"]:
     st.switch_page("pages/Home.py")
 
-
+# Formulário de login
 with st.form("form_login"):
-    usuario = st.text_input("Usuário")
+    email = st.text_input("E-mail")
     senha = st.text_input("Senha", type="password")
     botao_login = st.form_submit_button("Entrar")
 
     if botao_login:
-        if verificar_credenciais(usuario, senha):
+        funcionario = verificar_credenciais(email, senha)
+        if funcionario:
             st.session_state["autenticado"] = True
-            st.session_state["usuario"] = usuario
+            st.session_state["usuario"] = funcionario  # armazena os dados do funcionário
             st.success("Login realizado com sucesso!")
             st.switch_page("pages/Home.py")
         else:
-            st.error("Usuário ou senha incorretos.")
-
-
-
-if "autenticado" in st.session_state and st.session_state["autenticado"]:
-    st.switch_page("pages/Home.py")
+            st.error("E-mail ou senha incorretos.")
 
 

@@ -5,13 +5,19 @@ from database.conectar_bd import conectar_bd
 
 def renderizar_sidebar():
     with st.sidebar:
-        st.write(f"👤 Usuário: {st.session_state.get('usuario')}")
+        st.write(f"👤 Usuário: {st.session_state['usuario']['nome_funcionario']}")
 
         if st.button("🏠 Página Inicial"):
             st.switch_page("pages/home.py")  # ajuste conforme o nome do seu arquivo de home
 
         if st.button("🧑‍💼   Usuario"):
             st.switch_page("pages/Usuario.py")
+
+        if "usuario" in st.session_state and st.session_state["usuario"]["email"] == "admin@oculto.com":
+            if st.button("📊 Contrato Blockchain"):
+                st.switch_page("pages/contrato_blockchain.py")
+        #else:
+            #t.error("Acesso restrito! Esta página é apenas para testes internos.")
 
         if st.button("🚪 Sair"):
             st.session_state["autenticado"] = False
@@ -26,6 +32,7 @@ ufs = [
     "RS", "RO", "RR", "SC", "SP", "SE", "TO"
 ]
 
+# ESTADOS CIVIS DO CADASTRO DE FUNCIONÁRIOS/USUARIOS
 est_civil = [
     "Solteiro(a)",
     "Casado(a)",
@@ -34,6 +41,7 @@ est_civil = [
     "Viúvo(a)",
     "União estável"
 ]
+
 
 def exportar_funcionarios_para_csv():
     conn = conectar_bd()
@@ -57,3 +65,17 @@ def exportar_funcionarios_para_csv():
     buffer = io.StringIO()
     df.to_csv(buffer, index=False, sep=';')  # usa ; para compatibilidade com Excel em PT-BR
     return buffer.getvalue()
+
+
+# Função para verificar as credenciais do usuário e fazer o login na plataforma
+def verificar_credenciais(email, senha):
+    conn = conectar_bd()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT * FROM funcionarios 
+        WHERE email = %s AND senha = %s
+    """, (email, senha))
+    row = cursor.fetchone()
+    colunas = [desc[0] for desc in cursor.description]
+    conn.close()
+    return dict(zip(colunas, row)) if row else None

@@ -6,8 +6,9 @@ from utils.usarios_cadastrados import inserir_dados
 from database.conectar_bd import conectar_bd
 
 if "autenticado" not in st.session_state or not st.session_state["autenticado"]:
-    st.warning("Você precisa fazer login para acessar esta página.")
-    st.switch_page("login.py")
+    st.warning("Você precisa estar logado para acessar esta página.")
+    st.switch_page("pages/Login.py")
+
 
 renderizar_sidebar()
 
