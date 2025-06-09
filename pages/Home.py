@@ -1,6 +1,10 @@
 import streamlit as st
+from utils.transacoes import grafico_total_eth_por_funcionario
 from utils.componentes import renderizar_sidebar
 from utils.componentes import verificar_credenciais
+from database.conectar_bd import get_connection
+
+
 
 
 
@@ -17,4 +21,10 @@ renderizar_sidebar()
 
 if "usuario" in st.session_state:
     st.title(f"👋 Bem-vindo, {st.session_state['usuario']['nome_funcionario']}!")
+
+st.markdown("---")
+st.subheader("📊 ETH Transferido por Funcionário")
+grafico_total_eth_por_funcionario()
+
+
 

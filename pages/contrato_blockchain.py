@@ -5,6 +5,8 @@ import os
 from utils.componentes import renderizar_sidebar
 
 
+# PAGINA DEDICADO AO "Gerenciar Performance via Blockchain"
+
 
 renderizar_sidebar()
 # Carregar variáveis do .env
@@ -138,7 +140,7 @@ pontos = st.number_input("Pontuação a registrar", min_value=0, step=1)
 if st.button("Consultar Bônus"):
     if endereco_funcionario:
         bonus = contract.functions.calcularBonus(endereco_funcionario).call()
-        st.success(f"Bônus atual: {web3.fromWei(bonus, 'ether')} ETH")
+        st.success(f"Bônus atual: {web3.from_wei(bonus, 'ether')} ETH")
     else:
         st.warning("Informe o endereço do funcionário.")
 
@@ -157,7 +159,7 @@ if st.button("Registrar Pontuação"):
                 "gasPrice": web3.to_wei("20", "gwei")
             })
             assinado = web3.eth.account.sign_transaction(tx, PRIVATE_KEY)
-            tx_hash = web3.eth.send_raw_transaction(assinado.rawTransaction)
+            tx_hash = web3.eth.send_raw_transaction(assinado.raw_transaction)
             st.success(f"✅ Transação enviada: {web3.to_hex(tx_hash)}")
         except Exception as e:
             st.error(f"Erro ao registrar: {str(e)}")

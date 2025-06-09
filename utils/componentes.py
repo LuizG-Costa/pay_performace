@@ -13,6 +13,12 @@ def renderizar_sidebar():
         if st.button("🧑‍💼   Usuario"):
             st.switch_page("pages/Usuario.py")
 
+        if st.button("🪙 Transações Blockchain"):
+            st.switch_page("pages/Transicao_Blockchain.py")
+        
+        if st.button("💵 Transações Tradicional"):
+            st.switch_page("pages/Pagamento_Tradicional.py")
+
         if "usuario" in st.session_state and st.session_state["usuario"]["email"] == "admin@oculto.com":
             if st.button("📊 Contrato Blockchain"):
                 st.switch_page("pages/contrato_blockchain.py")
@@ -22,7 +28,7 @@ def renderizar_sidebar():
         if st.button("🚪 Sair"):
             st.session_state["autenticado"] = False
             st.session_state["usuario"] = ""
-            st.switch_page("login.py")
+            st.switch_page("Login.py")
 
 
 # UF DOS ESTADOS DO BRASIL

@@ -160,3 +160,26 @@ def consultar_bonus_blockchain(wallet_funcionario):
 
 def from_wei(valor_wei):
     return web3.from_wei(valor_wei, 'ether')
+
+def transferir_eth(endereco_destino, valor_eth):
+    try:
+        destino = Web3.to_checksum_address(endereco_destino)
+        conta = web3.eth.account.from_key(PRIVATE_KEY)
+
+        valor_wei = web3.to_wei(valor_eth, 'ether')
+        nonce = web3.eth.get_transaction_count(conta.address)
+
+        tx = {
+            "to": destino,
+            "value": valor_wei,
+            "gas": 21000,
+            "gasPrice": web3.to_wei("20", "gwei"),
+            "nonce": nonce
+        }
+
+        assinado = web3.eth.account.sign_transaction(tx, PRIVATE_KEY)
+        tx_hash = web3.eth.send_raw_transaction(assinado.raw_transaction)
+        return web3.to_hex(tx_hash)
+
+    except Exception as e:
+        return f"Erro: {e}"

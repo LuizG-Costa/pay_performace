@@ -16,7 +16,7 @@ from utils.blockchain import registrar_pontuacao_blockchain, consultar_bonus_blo
 
 if "autenticado" not in st.session_state or not st.session_state["autenticado"]:
     st.warning("Você precisa estar logado para acessar esta página.")
-    st.switch_page("Login.py")
+    st.switch_page("pages/Login.py")
 
 
 st.set_page_config(layout="wide")
@@ -108,37 +108,37 @@ if funcionarios:
                 st.success(f"Banco '{tipo_banco}' salvo/atualizado com sucesso para {row['Nome']}!")
 
         # Bloco de Registro de Pontuação na Blockchain
-        with st.expander("📈 Registrar pontuação na blockchain"):
-            dados_banco_funcionario = buscar_info_banco(row["Matrícula"])
-            carteira_blockchain_para_pontuacao = dados_banco_funcionario[7] if dados_banco_funcionario else None
+        # with st.expander("📈 Registrar pontuação na blockchain"):
+        #     dados_banco_funcionario = buscar_info_banco(row["Matrícula"])
+        #     carteira_blockchain_para_pontuacao = dados_banco_funcionario[7] if dados_banco_funcionario else None
 
-            if carteira_blockchain_para_pontuacao:
-                pontos = st.number_input(f"Pontuação a registrar para {row['Nome']}", min_value=0, step=1, key=f"pontos_{i}")
-                if st.button(f"Enviar para blockchain para {row['Nome']}", key=f"registrar_bc_{i}"):
-                    try:
-                        carteira_blockchain_validada = Web3.to_checksum_address(carteira_blockchain_para_pontuacao)
-                        resultado = registrar_pontuacao_blockchain(carteira_blockchain_validada, pontos)
-                        if "Erro" in resultado:
-                            st.error(resultado)
-                        else:
-                            st.success(f"Transação enviada com sucesso! Hash: {resultado}")
-                    except ValueError as e:
-                        st.error(f"Erro: Endereço da carteira blockchain para {row['Nome']} inválido. {e}")
-            else:
-                st.warning(f"Funcionário {row['Nome']} não possui carteira Blockchain cadastrada.")
+        #     if carteira_blockchain_para_pontuacao:
+        #         pontos = st.number_input(f"Pontuação a registrar para {row['Nome']}", min_value=0, step=1, key=f"pontos_{i}")
+        #         if st.button(f"Enviar para blockchain para {row['Nome']}", key=f"registrar_bc_{i}"):
+        #             try:
+        #                 carteira_blockchain_validada = Web3.to_checksum_address(carteira_blockchain_para_pontuacao)
+        #                 resultado = registrar_pontuacao_blockchain(carteira_blockchain_validada, pontos)
+        #                 if "Erro" in resultado:
+        #                     st.error(resultado)
+        #                 else:
+        #                     st.success(f"Transação enviada com sucesso! Hash: {resultado}")
+        #             except ValueError as e:
+        #                 st.error(f"Erro: Endereço da carteira blockchain para {row['Nome']} inválido. {e}")
+        #     else:
+        #         st.warning(f"Funcionário {row['Nome']} não possui carteira Blockchain cadastrada.")
 
-        # Exibir bônus (se tiver carteira)
-        dados_banco = buscar_info_banco(row["Matrícula"])
-        carteira = dados_banco[7] if dados_banco else None
+        # # Exibir bônus (se tiver carteira)
+        # dados_banco = buscar_info_banco(row["Matrícula"])
+        # carteira = dados_banco[7] if dados_banco else None
 
-        if carteira:
-            try:
-                carteira_validada = Web3.to_checksum_address(carteira)
-                bonus = consultar_bonus_blockchain(carteira_validada)
-                # Use a função from_wei importada do módulo blockchain
-                st.info(f'''\"💰 Bônus atual na blockchain: {from_wei(bonus)} ETH\" ''')
-            except Exception as e:
-                st.warning(f'''\"Não foi possível consultar o bônus: {e}\"''')
+        # if carteira:
+        #     try:
+        #         carteira_validada = Web3.to_checksum_address(carteira)
+        #         bonus = consultar_bonus_blockchain(carteira_validada)
+        #         # Use a função from_wei importada do módulo blockchain
+        #         st.info(f'''💰 Bônus atual na blockchain: {from_wei(bonus)} ETH ''')
+        #     except Exception as e:
+        #         st.warning(f'''Não foi possível consultar o bônus: {e}''')
         st.write("---")
 
 # Caso não haja funcionários cadastrados

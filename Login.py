@@ -1,6 +1,13 @@
 import streamlit as st
 from utils.componentes import verificar_credenciais
 
+#--------------------------------- NOTA DE VERSÃO ----------------------------------------------
+#"Nesta versão, a avaliação de performance é feita manualmente pelo administrador da plataforma, 
+# que atribui uma pontuação ao funcionário com base em critérios internos da empresa. A pontuação 
+# é registrada na blockchain e utilizada para cálculo automático do bônus em ETH."
+##-----------------------------------------------------------------------------------------------
+
+
 #col1, col2 = st.columns(2)
 #with col1:
     #st.title("Bem-Vindo à")
