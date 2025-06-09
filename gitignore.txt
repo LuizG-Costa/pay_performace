@@ -200,6 +200,7 @@ databases/
 utils/__pycache__/
 pages/__pycache__
 secrets.toml
+<<<<<<< HEAD
 
 # Ignorar arquivos sensíveis
 .env
@@ -211,3 +212,6 @@ __pycache__/
 # Diretórios do sistema
 database/
 .streamlit/
+=======
+.env
+>>>>>>> 5983c1423352a583466e2f3bce448bd3dcf7783e
