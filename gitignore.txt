@@ -200,3 +200,4 @@ databases/
 utils/__pycache__/
 pages/__pycache__
 secrets.toml
+.env
